@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#292b3d</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="gray_light">#fafafa</color>
+    <color name="start_blue">#303f9f</color>
+    <color name="end_blue">#3f51b5</color>
     <color name="colorLayerBack">#8a56ab</color>
     <color name="colorBack">#241333</color>
     <color name="colorTitle">#362742</color>
@@ -10,4 +13,5 @@
     <color name="colorTitleWhite">#ffffff</color>
     <color name="colorSubTitleWhite">#b795ce</color>
     <color name="colorHorizontalDivider">#898a56ab</color>
+
 </resources>

@@ -1,11 +1,15 @@
 package com.neo.notification_app;
 
+import android.app.Dialog;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
@@ -21,10 +25,14 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.util.Map;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public static final String TAG = "Token";
-    private static final String CHANNEL_ID = "My_channel";
-    public static final int NOTIFICATION_ID = 1;
+
+//    public static final int NOTIFICATION_ID = 1;
+    private static final String NOTIFICATION_CHANNEL_ID = "Channel";
+
 
     public MyFirebaseMessagingService() {
     }
@@ -36,28 +44,34 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "from: " + remoteMessage.getFrom());
 
         if(remoteMessage.getData().size() > 0){
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+
         }
+        Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 
         if(remoteMessage.getNotification() != null){
-            Log.d(TAG, "Message Notification Title: " + remoteMessage.getNotification().getTitle());
+            Log.d(TAG, "Message Notification Title: " + remoteMessage.getData().get("title"));
 
-            Log.d(TAG, "Message Notification Body: " + remoteMessage.getNotification().getBody());
+            Log.d(TAG, "Message Notification Body: " + remoteMessage.getData().get("content"));
         }
 
-//        createNotificationChannel();
+        createNotificationChannel();
 
-        sendNotification(remoteMessage);
+        if(remoteMessage != null){
+            sendNotification(remoteMessage);
+        }
+
 
 
     }
 
 
+
+    // method only creates a notififcation channel for android 8 and 9 since it is needed.
     private void createNotificationChannel(){
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            int importance = NotificationManager.IMPORTANCE_HIGH;
 
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_ID, importance);
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_ID, importance);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
 
             notificationManager.createNotificationChannel(channel);
@@ -100,23 +114,68 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
-    private void sendNotification(RemoteMessage messageBody){
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
 
+    // method must be overridden in order to recieve notification when the app is killed
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+        Log.d(TAG, "onTaskRemoved: starts");
+    }
+
+    private void sendNotification(RemoteMessage messageBody){
+
+        Map<String, String> data = messageBody.getData();
+        String title = data.get("title");
+        String content = data.get("content");
+
+
+
+        Intent intent = new Intent(this, MainActivity.class);
+        // pases the content and title of the content and title tag of the json data recieved to a body and title.
+        intent.putExtra("Body", messageBody.getData().get("content"));
+        intent.putExtra("Title", messageBody.getData().get("title"));
+        intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
-//
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
-        notificationBuilder.setChannelId(CHANNEL_ID);
-        notificationBuilder.setSmallIcon(R.drawable.ic_stat_name);
-        notificationBuilder.setContentTitle(messageBody.getNotification().getTitle());
-        notificationBuilder.setContentText(messageBody.getNotification().getBody());
-        notificationBuilder.setAutoCancel(true);
-        notificationBuilder.setContentIntent(pendingIntent);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        notificationBuilder.setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.drawable.ic_stat_name)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setContentInfo("info")
+                .setChannelId(NOTIFICATION_CHANNEL_ID)
+                .setContentIntent(pendingIntent);
+
 
         NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notificationBuilder.build());
+        notificationManager.notify(1, notificationBuilder.build());
+
+
+
+
+
+
+//        Intent intent = new Intent(this, MainActivity.class);
+//        intent.putExtra("Body", messageBody.getNotification().getBody());
+//        intent.putExtra("Title", messageBody.getNotification().getTitle());
+//        intent.setFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
+//
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+//
+//
+//        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+//        notificationBuilder.setChannelId(CHANNEL_ID);
+//        notificationBuilder.setSmallIcon(R.drawable.ic_stat_name);
+//        notificationBuilder.setContentTitle(messageBody.getNotification().getTitle());
+//        notificationBuilder.setContentText(messageBody.getNotification().getBody());
+//        notificationBuilder.setAutoCancel(true);
+//        notificationBuilder.setContentIntent(pendingIntent);
+
+//        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+//        notificationManager.notify(0, notificationBuilder.build());
 
 //        NotificationCompat.Builder notificationBuilder= new NotificationCompat.Builder(this, CHANNEL_ID);
 //        notificationBuilder.setSmallIcon(R.drawable.ic_stat_name);
@@ -129,6 +188,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //
 //        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
     }
+
+
 
 
 
