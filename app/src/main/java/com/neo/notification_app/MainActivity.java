@@ -20,9 +20,6 @@ import org.w3c.dom.Text;
 public class MainActivity extends AppCompatActivity{
 
     public static final String TAG = "MainActivity";
-    Dialog dialog;
-    TextView title;
-    TextView content;
     Intent intent;
 
     @Override
@@ -62,17 +59,15 @@ public class MainActivity extends AppCompatActivity{
 
         intent = getIntent();
 
-
-        dialog = new Dialog(this);
-        dialog.setContentView(R.layout.dialog);
-        title = (TextView)dialog.findViewById(R.id.username);
-        content= (TextView)dialog.findViewById(R.id.phoneNumber);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         // checks if the title key and body key gotten from the firemessaging class does not have null values
         if((intent.getStringExtra("Title")!= null) && (intent.getStringExtra("Body")!= null)){
             Log.d(TAG, "notifier: " + intent.getStringExtra("Title"));
             Log.d(TAG, "notifier: " + intent.getStringExtra("Body"));
+            Dialog dialog = new Dialog(this);
+            dialog.setContentView(R.layout.dialog);
+            TextView title = (TextView)dialog.findViewById(R.id.username);
+            TextView content= (TextView)dialog.findViewById(R.id.phoneNumber);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             title.setText(intent.getStringExtra("Title"));
             content.setText(intent.getStringExtra("Body"));
             dialog.show();
@@ -80,10 +75,6 @@ public class MainActivity extends AppCompatActivity{
         intent.removeExtra("Title");
         intent.removeExtra("Body");
 
-
-
-
     }
-
 
 }
