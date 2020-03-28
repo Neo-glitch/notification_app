@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">notification_app</string>
+    <string name="app_name">HipoErp</string>
     <string name="image">image_for_app</string>
     <string name="username">zubby4real</string>
     <string name="notification_title_header">Title header</string>
