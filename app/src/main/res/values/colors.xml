@@ -13,5 +13,12 @@
     <color name="colorTitleWhite">#ffffff</color>
     <color name="colorSubTitleWhite">#b795ce</color>
     <color name="colorHorizontalDivider">#898a56ab</color>
+    <color name="bluelight">#49acd5</color>
+    <color name="orange">#eaad43</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="red">#d32f2f</color>
+    <color name="colorRed">#ff3943</color>
+
+    <color name="lightBlue">#03A9F4</color>
 
 </resources>

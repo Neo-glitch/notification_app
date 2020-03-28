@@ -12,4 +12,5 @@
     <string name="date_of_birth">12 / 01/ 99</string>
     <string name="date_of_birth_header">Date of Birth</string>
     <string name="phone_number">+234 090 234 4546</string>
+    <string name="close">DISMISS</string>
 </resources>
