@@ -9,12 +9,14 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@drawable/icon"
         android:layout_gravity="center"
+        app:civ_border_width="10dp"
+        app:civ_border_color="@color/start_blue"
         />
 
     <TextView

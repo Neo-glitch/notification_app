@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home"
+            android:title="Home"/>
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/logout"
+            android:title="Logout" />
+
+        <!--<item-->
+            <!--android:id="@+id/nav_logout"-->
+            <!--android:icon="@drawable/logout_icon"-->
+            <!--android:title="Logout" />-->
+
+
+    </group>
+
+
+    <item android:title="tasks">
+
+        <menu>
+
+            <group android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/nav_pending_tasks"
+                    android:icon="@drawable/pending_tasks"
+                    android:title="Pending Tasks" />
+
+                <item
+                    android:id="@+id/nav_completed_tasks"
+                    android:icon="@drawable/completed_tasks"
+                    android:title="Completed Tasks" />
+
+                <item
+                    android:id="@+id/nav_task_details"
+                    android:icon="@drawable/tasks_detail"
+                    android:title="Tasks detail" />
+
+
+            </group>
+
+        </menu>
+    </item>
+
+
+</menu>

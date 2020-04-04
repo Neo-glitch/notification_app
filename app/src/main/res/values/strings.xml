@@ -13,4 +13,6 @@
     <string name="date_of_birth_header">Date of Birth</string>
     <string name="phone_number">+234 090 234 4546</string>
     <string name="close">DISMISS</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
