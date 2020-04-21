@@ -13,12 +13,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.neo.notification_app.retrofit.ApiUtils;
+import com.neo.notification_app.retrofit.RetrofitApi;
+
 public class LoginActivity extends AppCompatActivity {
 
     EditText emailText;
     Button loginButton;
-    CheckBox checkBox;
     Intent intent;
+    RetrofitApi mRetrofitApi;
+
+
 
 
 
@@ -30,6 +35,9 @@ public class LoginActivity extends AppCompatActivity {
         emailText = findViewById(R.id.emailText);
         loginButton = findViewById(R.id.loginButton);
 
+        // initializes our retrofit Api
+//        mRetrofitApi = ApiUtils.getApiService();
+
 
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -38,11 +46,11 @@ public class LoginActivity extends AppCompatActivity {
                 intent = new Intent(LoginActivity.this, MainActivity.class);
                 if(emailText.getText().toString().equalsIgnoreCase("test@gmail.com")){
                     startActivity(intent);
-                    Toast.makeText(LoginActivity.this, "login successful", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "login successful", Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 else{
-                    Toast.makeText(LoginActivity.this, "wrong username", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "wrong email", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -53,8 +61,10 @@ public class LoginActivity extends AppCompatActivity {
                 intent = new Intent(LoginActivity.this, MainActivity.class);
                 if((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)&&(emailText.getText().toString().equalsIgnoreCase("test@gmail.com"))){
                     startActivity(intent);
-                    Toast.makeText(LoginActivity.this, "login successful", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "login successful", Toast.LENGTH_SHORT).show();
                     finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, "wrong email", Toast.LENGTH_LONG).show();
                 }
                 return false;
             }

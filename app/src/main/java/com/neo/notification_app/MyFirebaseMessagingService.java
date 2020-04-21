@@ -44,12 +44,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Log.d(TAG, "from: " + remoteMessage.getFrom());
 
-        if(remoteMessage.getData().size() > 0){
+        if (remoteMessage.getData().size() > 0) {
 
         }
         Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 
-        if(remoteMessage.getNotification() != null){
+        if (remoteMessage.getNotification() != null) {
             Log.d(TAG, "Message Notification Title: " + remoteMessage.getData().get("title"));
 
             Log.d(TAG, "Message Notification Body: " + remoteMessage.getData().get("content"));
@@ -57,60 +57,46 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         createNotificationChannel();
 
-        if(remoteMessage != null){
+        if (remoteMessage != null) {
             sendNotification(remoteMessage);
         }
 
 
-
     }
-
 
 
     // method only creates a notififcation channel for android 8 and 9 since it is needed.
-    private void createNotificationChannel(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-//            int importance = NotificationManager.IMPORTANCE_HIGH;
-//
-//            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_ID, importance);
-//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-//
-//            notificationManager.createNotificationChannel(channel);
+    private void createNotificationChannel() {
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-                NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                NotificationChannel channel = new NotificationChannel(NOTIFICATION_ID, "Notification", notificationManager.IMPORTANCE_HIGH);
-                channel.setDescription("The App");
-                channel.enableLights(true);
-                channel.setLightColor(Color.BLUE);
-                channel.setVibrationPattern(new long[]{500,500,500,500});
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_ID, "Notification", notificationManager.IMPORTANCE_HIGH);
+            channel.setDescription("The App");
+            channel.enableLights(true);
+            channel.setLightColor(Color.BLUE);
+            channel.setVibrationPattern(new long[]{500, 500, 500, 500});
 
 
-                notificationManager.createNotificationChannel(channel);
-            }
-
-
+            notificationManager.createNotificationChannel(channel);
         }
-    }
 
+
+    }
 
 
     @Override
     public void onNewToken(String token) {
         super.onNewToken(token);
-//        Log.d(TAG, "Refreshed token: " + token);
-
         Log.i(TAG, "onNewToken: = " + token);
 
         FirebaseInstanceId.getInstance().getInstanceId().
                 addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if(!task.isSuccessful()){
+                        if (!task.isSuccessful()) {
                             Log.w(TAG, "getInstanceid Failed", task.getException());
                             return;
                         }
-
                         // get instance ID token
                         String token = task.getResult().getToken();
 
@@ -124,7 +110,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         sendRegistrationToServer(token);
     }
 
-    private void sendRegistrationToServer(String token){
+    private void sendRegistrationToServer(String token) {
 
     }
 
@@ -136,19 +122,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "onTaskRemoved: starts");
     }
 
-    private void sendNotification(RemoteMessage messageBody){
+    private void sendNotification(RemoteMessage messageBody) {
 
         Map<String, String> data = messageBody.getData();
         String title = data.get("title");
         String content = data.get("content");
 
 
-
         Intent intent = new Intent(this, MainActivity.class);
         // pases the content and title of the content and title tag of the json data recieved to a body and title.
         intent.putExtra("Body", messageBody.getData().get("content"));
         intent.putExtra("Title", messageBody.getData().get("title"));
-        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK|intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(intent.FLAG_ACTIVITY_NEW_TASK | intent.FLAG_ACTIVITY_CLEAR_TASK | intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
 
@@ -160,16 +145,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(content)
                 .setContentInfo("info")
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setChannelId(NOTIFICATION_ID)
                 .setContentIntent(pendingIntent);
 
 
-        NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(new Random().nextInt(), notificationBuilder.build());
-
-
-
-
 
 
 //        Intent intent = new Intent(this, MainActivity.class);
@@ -196,15 +178,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 //        notificationBuilder.setContentTitle(messageBody.getNotification().getTitle());
 //        notificationBuilder.setContentText(messageBody.getNotification().getBody());
 //        notificationBuilder.setAutoCancel(true);
-//        notificationBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        notificationBuilder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
 //
 //        NotificationManagerCompat notificationManager= NotificationManagerCompat.from(this);
 //
 //        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
     }
-
-
-
 
 
 }

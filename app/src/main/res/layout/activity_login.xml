@@ -18,8 +18,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:background="@color/start_blue"
-            >
+            android:background="@color/start_blue">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="100dp"
@@ -43,17 +42,17 @@
                 android:id="@+id/emailText"
                 android:layout_width="325dp"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
-                android:hint="Email"
-                android:textColorHint="#2CA7E0"
-                android:textColor="#2CA7E0"
-                android:textSize="16sp"
                 android:layout_gravity="center"
-                android:drawableLeft="@drawable/ic_email_black_24dp"
-                android:drawablePadding="10dp"
                 android:layout_marginTop="25dp"
                 android:background="@drawable/editstyle"
-                android:padding="20dp" />
+                android:drawableLeft="@drawable/ic_email_black_24dp"
+                android:drawablePadding="10dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:padding="20dp"
+                android:textColor="#2CA7E0"
+                android:textColorHint="#2CA7E0"
+                android:textSize="16sp" />
 
 
             <!--<EditText-->

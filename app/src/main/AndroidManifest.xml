@@ -11,9 +11,19 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TaskDetails"></activity>
-        <activity android:name=".CompletedTasks" />
-        <activity android:name=".PendingTasks" />
+        <activity
+            android:name=".PendingTaskDetails"
+            android:parentActivityName=".PendingTasks" />
+        <activity
+            android:name=".CompletedTaskDetails"
+            android:parentActivityName=".CompletedTasks" />
+
+        <activity
+            android:name=".CompletedTasks"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".PendingTasks"
+            android:parentActivityName=".MainActivity" />
 
         <service
             android:name=".MyFirebaseMessagingService"

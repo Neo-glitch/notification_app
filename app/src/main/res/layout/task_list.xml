@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:paddingBottom="16dp"
+        android:id="@+id/taskContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/card_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/taskTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="21dp"
+            android:text="The Text title"
+            android:textColor="@color/start_blue"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/taskDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/taskTitle"
+            android:layout_alignStart="@id/taskTitle"
+            android:layout_alignLeft="@id/taskTitle"
+            android:layout_marginTop="8dp"
+            android:lineSpacingExtra="8dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="The countries info like it's heroes, war clips , gangsters in the top cities in the country"
+            android:textColor="@color/task_list_details_color" />
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentRight="true"-->
+        <!--android:layout_marginstart="100dp"-->
+        <!--android:layout_marginRight="16dp"-->
+        <!--android:text="the date"-->
+
+        <!--/>-->
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -38,10 +38,10 @@
                     android:icon="@drawable/completed_tasks"
                     android:title="Completed Tasks" />
 
-                <item
-                    android:id="@+id/nav_task_details"
-                    android:icon="@drawable/tasks_detail"
-                    android:title="Tasks detail" />
+                <!--<item-->
+                <!--android:id="@+id/nav_task_details"-->
+                <!--android:icon="@drawable/tasks_detail"-->
+                <!--android:title="Tasks detail" />-->
 
 
             </group>

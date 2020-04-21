@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -33,13 +34,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static final String TAG = "MainActivity";
     Intent intent;
-//    Intent intent2;
 
     public static Dialog dialog;
     FirebaseDatabase rootNode;
     DatabaseReference reference;
 
-    // the fields
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolBar;
@@ -49,15 +48,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+            intent.removeExtra("Title");
+            intent.removeExtra("Body");
         }
-        super.onBackPressed();
-        intent.removeExtra("Title");
-        intent.removeExtra("Body");
-
-
-//        dialog.dismiss();
-
     }
+
+
 
     @Override
     protected void onPostResume() {
@@ -79,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 String token = instanceIdResult.getToken();
                 Log.d(TAG, "onSuccess: token is: " + token);
 
+                //init firebase Database
                 rootNode = FirebaseDatabase.getInstance();
                 reference = rootNode.getReference("token");
 
@@ -92,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         // tells system that we want to use the custom toolbar as our action bar
-
         setSupportActionBar(toolBar);
 
         // Hides or show Items of navigation drawer.
@@ -100,32 +98,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        menu.findItem(R.id.nav_logout).setVisible(false);
 
 
-        // brings the navigation view to seem to be on top of the layout so that it can be clicked
-        navigationView.bringToFront();
-//         tells app that through our actionbar toogle we want to bring and hide the navigationView
+        // tells app that through our actionbar toogle we want to bring and hide the navigationView
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolBar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.getDrawerArrowDrawable().setColor(Color.WHITE);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-//         makes the menu items in the navigationView clickable
+        // brings the navigation view to seem to be on top of the layout so that it can be clicked
+        navigationView.bringToFront();
+        // makes the menu items in the navigationView clickable
         navigationView.setNavigationItemSelectedListener(this);
-
-//         selects the navigation home icon by default
+        // selects the navigation home icon by default
         navigationView.setCheckedItem(R.id.nav_home);
+        navigationView.setItemTextColor(ColorStateList.valueOf(Color.parseColor("#303F9F")));
 
 
         intent = getIntent();
 
+
+        // TODO tiddy up this code by using a bundle to store the getintent().getExtra() stuff
         // checks if the title key and body key gotten from the firemessaging class does not have null values
         if ((intent.getStringExtra("Title") != null) && (intent.getStringExtra("Body") != null)) {
             Log.d(TAG, "notifier: " + intent.getStringExtra("Title"));
             Log.d(TAG, "notifier: " + intent.getStringExtra("Body"));
             dialog = new Dialog(this);
             dialog.setContentView(R.layout.dialog);
-            TextView title = (TextView) dialog.findViewById(R.id.notificationTitle);
-            TextView content = (TextView) dialog.findViewById(R.id.notificationBody);
-            Button close = (Button) dialog.findViewById(R.id.closeButton);
+            TextView title = dialog.findViewById(R.id.notificationTitle);
+            TextView content = dialog.findViewById(R.id.notificationBody);
+            Button close = dialog.findViewById(R.id.closeButton);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             title.setText(intent.getStringExtra("Title"));
             content.setText(intent.getStringExtra("Body"));
@@ -142,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         intent.removeExtra("Body");
 
 
-
     }
 
 
@@ -154,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "you pressed the nav_home icon", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_logout:
-                Intent  loginIntent= new Intent(getApplicationContext(), LoginActivity.class);
+                Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
                 loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(loginIntent);
                 finish();
@@ -167,10 +166,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent completedTasksIntent = new Intent(MainActivity.this, CompletedTasks.class);
                 startActivity(completedTasksIntent);
                 break;
-            case R.id.nav_task_details:
-                Intent taskDetailsIntent = new Intent(MainActivity.this, TaskDetails.class);
-                startActivity(taskDetailsIntent);
-                break;
+//            case R.id.nav_task_details:
+//                Intent taskDetailsIntent = new Intent(MainActivity.this, PendingTaskDetails.class);
+//                startActivity(taskDetailsIntent);
+//                break;
         }
         //closes the drawer when any item is clicked
         drawerLayout.closeDrawer(GravityCompat.START);

@@ -41,7 +41,7 @@
 
             <EditText
                 android:id="@+id/emailText"
-                android:layout_width="325dp"
+                android:layout_width="500dp"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
                 android:hint="Email"

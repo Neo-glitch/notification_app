@@ -18,8 +18,14 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="SplashScreen" parent="Theme.AppCompat.NoActionBar">
-        <!--<item name="android:windowBackground">#</item>-->
+
+    <style name="toolbarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">@color/start_blue</item>
+        <item name="colorPrimary">@color/start_blue</item>
+        <item name="android:statusBarColor">@color/start_blue</item>
+        <item name="colorControlNormal">@color/colorTitleWhite</item>
+        <item name="android:icon">@drawable/toolbar_icon</item>
+
     </style>
 
 </resources>
