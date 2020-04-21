@@ -40,7 +40,6 @@ public class MyCustomAdapter extends RecyclerView.Adapter<MyCustomAdapter.MyView
 
         // applies animation effect to the taskContainer view
         holder.taskContainer.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fade_animation_transition));
-
         holder.taskTitle.setText(tasksList.getTaskName());
         holder.taskDetails.setText("click to get task details..");
 
